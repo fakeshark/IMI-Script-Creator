@@ -142,16 +142,6 @@ namespace ScriptBuilder
             return newSource;
         }
 
-        public bool DoChildTagsExist(string source, string tag)
-        {
-            
-
-            for (int i = 0; i < source.Length; i++)
-            {
-
-            }
-            return true;
-        }
 
     }
 }

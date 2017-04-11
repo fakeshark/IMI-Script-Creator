@@ -17,12 +17,19 @@ namespace ScriptBuilder
 
         public string MakeCloseTag(string source)
         {
-            if (source[0].ToString() == "<")
+            if (source.Length > 0)
             {
-                source = source.Remove(0, 1);
-            }
+                if (source[0].ToString() == "<")
+                {
+                    source = source.Remove(0, 1);
+                }
 
-            return "</" + source + ">";
+                return "</" + source + ">";
+            }
+            else
+            {
+                return "";
+            }
         }
 
         public bool Contains(string source, string compare)
@@ -55,6 +62,10 @@ namespace ScriptBuilder
                     }
                 }
             }
+            else
+            {
+                openingTag = "";
+            }
 
             return openingTag;
         }
@@ -63,17 +74,25 @@ namespace ScriptBuilder
         {
             string dataInside = string.Empty;
 
-            if (tag[0].ToString() == "<")
+            if (tag.Trim() != "" || source.Trim() != "")
             {
-                tag = tag.Remove(0, 1);
+                if (tag[0].ToString() == "<")
+                {
+                    tag = tag.Remove(0, 1);
+                }
+
+                if (Contains(source, "<" + tag))
+                {
+                    dataInside = Dm.ExtractData(source, "<" + tag, "</" + tag + ">");
+                }
+
+                return dataInside;
+            }
+            else
+            {
+                return "";
             }
 
-            if (Contains(source, "<" + tag))
-            {
-                dataInside = Dm.ExtractData(source, "<" + tag, "</" + tag + ">");
-            }
-
-            return dataInside;
         }
     }
 }

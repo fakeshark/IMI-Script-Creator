@@ -100,14 +100,14 @@ namespace ScriptBuilder
         {
             if (source == "" || source == null)
             {
-                //MessageBox.Show("Please import a source document.", "Warning:");
+                // MessageBox.Show("Please import a source document.", "Warning:");
             }
             else
             {
-                List<int> startList = Dm.GetStartPositions(source, searchTextStart);
-                List<int> endList = Dm.GetEndPositions(source, searchTextEnd);
-                source = Regex.Replace(source, "<figure.*?/figure>", "", RegexOptions.Singleline);
-                MakeParaList(startList, endList);
+                List<int> startList = Dm.GetStartPositions(source, searchTextStart); 
+                List<int> endList = Dm.GetEndPositions(source, searchTextEnd); 
+                source = Regex.Replace(source, "<figure.*?/figure>", "", RegexOptions.Singleline); 
+                MakeParaList(startList, endList); 
 
                 for (int i = 0; i < paraList.Count; i += 2)
                 {
@@ -184,7 +184,7 @@ namespace ScriptBuilder
                 unsavedChangesExist = true;
             }
             tagList.Clear();
-            InitializeSturctureList();
+            InitializeStructureList();
             //UpdateListBox(tmText);
         }
 
@@ -214,7 +214,7 @@ namespace ScriptBuilder
             }
         }
 
-        public void InitializeSturctureList()
+        public void InitializeStructureList()
         {
             tmData = Frm.GetDataFrom(tmText, "production");
             SetDefaultListState(tmData);
@@ -225,9 +225,10 @@ namespace ScriptBuilder
             string  tagName = Frm.FindFirstOpeningTag(tmData);
             string formattedTag = "[ + ] " + makeOpenTag(tagName) + "..." + makeCloseTag(tagName);
             string  expansionState = "collapsed";
+            string indentLevel = "|     ";
             string  innerData = Frm.GetDataFrom(tmData, tagName);
 
-            tagList.Add(new List<string> { tagName, expansionState, innerData });
+            tagList.Add(new List<string> { Frm.MakeOpenTag(tagName), expansionState, innerData, indentLevel });
             UpdateStructure();
 
             //cbxlstStructure.Items.Add(new List<string> { tagName, expansionState, dataInside });
@@ -241,7 +242,7 @@ namespace ScriptBuilder
             cbxlstStructure.Items.Clear();
             for (int i = 0; i < tagList.Count; i++)
             {
-                cbxlstStructure.Items.Add("<" + tagList[i][0] + ">");
+                cbxlstStructure.Items.Add(tagList[i][0]);
             }
         }
 
@@ -335,155 +336,98 @@ namespace ScriptBuilder
             // check to see if the selected list item is expandable
             if(tagList[clickedItem][1] == "collapsed")
             {
-                rtbTest.Text = "EXPANDED...";
-                tagList[clickedItem][1] = "expanded";
-                // find the innerData inside the tag clicked
-                string innerData = tagList[clickedItem][2];
-                // find the next top-level tag within the inner data
-                string tagName = Frm.FindFirstOpeningTag(innerData);
-                int splitPosition = Dm.GetEndPosition(innerData, "</" + tagName + ">");
-                // get new inner data from within the next top level tag
-                string newInnerData = Frm.GetDataFrom(innerData, tagName);
-                //
+                expandTag(clickedItem);
             }
             else if (tagList[clickedItem][1] == "expanded")
             {
-                rtbTest.Text = "COLLAPSED...";
-                tagList[clickedItem][1] = "collapsed";
+                expandTag(clickedItem);
+                //tagList[clickedItem][1] = "collapsed";
             }
             else
             {
                 //nothing
             }
+        }
 
-            //
+        private void expandTag(int clickedItem)
+        {
+            if (DoChildTagsExist(tagList[clickedItem][2]))
+            {
 
-                /*
-                if (clickedItem.expansionState == "non-expandable")
+                // Find the first available opening tag
+                string innerData = tagList[clickedItem][2];
+                string tagName;
+                string expansionState;
+                string newInnerData;
+                int splitPosition;
+                string remainingData;
+                int insertIndex = clickedItem;
+                string indentLevel = tagList[clickedItem][3] + "|     ";
+
+
+
+                do
                 {
-                    //Do nothing
-                }
-
-                if (clickedItem.expansionState == "expanded")
-                {
-                    //collapseItem();
-                }
-
-                if (clickedItem.expansionState == "collapsed")
-                {
-                    //expandItem();
-                }
-                */
-
-                /*
-                 * List item is clicked
-                 * 1. check item's expansion state (expanded, collapsed, non-expandable).
-                 *  a. if item is non-expandable, do nothing
-                 *  b. if item is expanded, collapseItem(); - step 2.
-                 *  c. if item is collapsed, expandItem();
-                 *  
-                 * 2. (Collapse) find index of closing tag at same level.
-                 * 3. Delete tags between opening and closing indexes.
-                 * 
-                 * 
-                 * 
-                 * /
-
-                //MessageBox.Show(e.ToString(), sender.ToString());
-
-                // Gets the text from the list-item that was dbl. clicked
-                string text = cbxlstStructure.SelectedIndex.ToString();
-                // Sees if string data from inside the tag clicked contains any child level tags
-                string nextTag = Frm.FindFirstOpeningTag(Convert.ToString(tagList[cbxlstStructure.SelectedIndex][2]));
-
-                if (nextTag != "")
-                {
-                    if (text[1].ToString() != "/")
+                    tagName = Frm.FindFirstOpeningTag(innerData);
+                    if (tagName == "")
                     {
-                        // strips away the tag formatting from the string
-                        text = Dm.CaptureTextBetween(text, 1, text.Length - 1);
-
-                        //formats the string tags for search and capture of contained string data
-                        string openTag = "<" + text;
-                        string closeTag = "</" + text + ">";
-
-                        cbxlstStructure.Items.Add(closeTag);
+                        UpdateStructure();
+                        break;
                     }
+                    // Find the closing tag
+                    string closeTag = Frm.MakeCloseTag(tagName);
+                    // add item to list with tagName, expansionState, and XML data (from inside the open and closing tags)
+                    expansionState = "expanded";
+                    newInnerData = Frm.GetDataFrom(innerData, tagName);
+
+                    
+                    tagList.Insert(insertIndex + 1, new List <string> { indentLevel + Frm.MakeOpenTag(tagName), expansionState, newInnerData, indentLevel });
+                    
+                    // split the string at the closing tag and get the remaining string data inside another variable
+                    splitPosition = (Dm.GetEndPosition(innerData, closeTag) + closeTag.Length);
+                    remainingData = getRemainingStringData(innerData, splitPosition);
+                    // check that new string for child tags, if they do exist, repeat
+                    if (DoChildTagsExist(remainingData))
+                    {
+                        innerData = remainingData;
+                    }
+                    insertIndex++;
+                    UpdateStructure();
+
+                } while (DoChildTagsExist(innerData));
+            }
+        }
+
+        private string getRemainingStringData(string source, int splitPosition)
+        {
+            string openTag = Frm.FindFirstOpeningTag(source);
+
+            if (openTag != "")
+            {
+                if (Dm.GetStartPosition(source, Frm.MakeCloseTag(openTag)) <= 0)
+                {
+                    source = "";
+                }
+                else
+                {
+                    source = Dm.CaptureTextBetween(source, splitPosition, source.Length);
                 }
             }
+            return source;
+        }
 
-            private void FindAllChildTags(string source, string tag)
+        public bool DoChildTagsExist(string source)
+        {
+            // this may need a better method to check for child tags, come back to this...
+            string tag = Frm.FindFirstOpeningTag(source);
+            if (tag != "" || tag != null)
             {
-
+                return true;
             }
-
-
-            /*
-                     private void cbxlstStructure_DoubleClick(object sender, EventArgs e)
+            else
             {
-                // Gets the text from the list-item that was dbl. clicked
-                string text = cbxlstStructure.Items[cbxlstStructure.SelectedIndex].ToString();
-
-                // strips away the tag formatting from the string
-                text = captureTextBetween(text, 1, text.Length - 1);
-
-                //formats the string tags for search and capture of contained string data
-                string openTag = "<" + text;
-                string closeTag = "</" + text + ">";
-
-                //Get string data between opening and closing tags
-                string source = ExtractData(tmText, openTag, closeTag);
-
-                // looks for all child tags (at the next lower level) contained in the extracted string data.
-                FindAllChildTags(source, closeTag);
-
-                //text = FindTopLevelTag(tmText, text);
-                //MessageBox.Show(openTag + ">..." + closeTag);
-                //UpdateListBox(source);
+                return false;
             }
-
-            private void FindAllChildTags(string source, string tag)
-            {
-                string sourceText = source;
-                string childTag = string.Empty;
-                string open = string.Empty;
-                string close = string.Empty;
-                int start = GetStartPosition(sourceText, "<");
-
-                while (GetStartPosition(sourceText, "<") >= 0)
-                    {
-
-                    // find the first(or next) opening tag
-                    for (int i = start; i < sourceText.Length; i++)
-                        {
-                            if (sourceText[i].ToString() == ">" || sourceText[i].ToString() == " ")
-                            {
-                                open = MakeOpenTag(childTag);
-                                close = MakeCloseTag(childTag);
-                                sourceText = ExtractData(sourceText, open, close);
-                                start = GetStartPosition(sourceText, "<");
-                                break;
-                            }
-                            else
-                            {
-                                childTag += sourceText[i];
-                            }
-                        }
-                    // based on opening tag, find closing tag
-                    // add that open/close tag to the list
-                    // set startingpos to the position of the closing tag
-
-
-                    // redefine the searchable text to be what is contained between 
-                    // the end of the previous closing tag and the end of the entire string
-                    //text = captureTextBetween(text, getstpos, text.Length);
-
-
-                    cbxlstStructure.Items.Add(open + ">");
-                    open = "";
-                    close = "";
-                    childTag = "";
-                }*/
         }
     }
 }

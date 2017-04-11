@@ -46,13 +46,13 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lbxParaList = new System.Windows.Forms.ListBox();
             this.gbxWorkArea = new System.Windows.Forms.GroupBox();
+            this.cbxlstStructure = new System.Windows.Forms.ListBox();
             this.lblSteps = new System.Windows.Forms.Label();
             this.lblTagsStructure = new System.Windows.Forms.Label();
             this.btnExtractParas = new System.Windows.Forms.Button();
             this.gbxPreview = new System.Windows.Forms.GroupBox();
             this.rtbTest = new System.Windows.Forms.RichTextBox();
             this.form1BindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.cbxlstStructure = new System.Windows.Forms.ListBox();
             this.gbxData.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.gbxWorkArea.SuspendLayout();
@@ -224,6 +224,21 @@
             this.gbxWorkArea.TabStop = false;
             this.gbxWorkArea.Text = "Default";
             // 
+            // cbxlstStructure
+            // 
+            this.cbxlstStructure.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.cbxlstStructure.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.cbxlstStructure.Font = new System.Drawing.Font("Open Sans Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbxlstStructure.FormattingEnabled = true;
+            this.cbxlstStructure.ItemHeight = 18;
+            this.cbxlstStructure.Location = new System.Drawing.Point(25, 51);
+            this.cbxlstStructure.Name = "cbxlstStructure";
+            this.cbxlstStructure.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+            this.cbxlstStructure.Size = new System.Drawing.Size(320, 344);
+            this.cbxlstStructure.TabIndex = 10;
+            this.cbxlstStructure.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.cbxlstStructure_MouseDoubleClick);
+            // 
             // lblSteps
             // 
             this.lblSteps.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -287,21 +302,6 @@
             // form1BindingSource
             // 
             this.form1BindingSource.DataSource = typeof(ScriptBuilder.Form1);
-            // 
-            // cbxlstStructure
-            // 
-            this.cbxlstStructure.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.cbxlstStructure.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.cbxlstStructure.Font = new System.Drawing.Font("Open Sans Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbxlstStructure.FormattingEnabled = true;
-            this.cbxlstStructure.ItemHeight = 18;
-            this.cbxlstStructure.Location = new System.Drawing.Point(25, 51);
-            this.cbxlstStructure.Name = "cbxlstStructure";
-            this.cbxlstStructure.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-            this.cbxlstStructure.Size = new System.Drawing.Size(320, 344);
-            this.cbxlstStructure.TabIndex = 10;
-            this.cbxlstStructure.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.cbxlstStructure_MouseDoubleClick);
             // 
             // Form1
             // 
