@@ -120,6 +120,7 @@ namespace ScriptBuilder
 
                 CleanList(lbxParaList, "&deg;", "degrees ");
                 CleanList(lbxParaList, "&rsquo;", "'");
+                CleanList(lbxParaList, "&rdquo;", "'");
                 CleanList(lbxParaList, "&ldquo;", "'");
                 CleanList(lbxParaList, "&amp;", "&");
                 CleanList(lbxParaList, "&dash;", "-");
@@ -185,7 +186,7 @@ namespace ScriptBuilder
             }
             tagList.Clear();
             InitializeStructureList();
-            //UpdateListBox(tmText);
+            
         }
 
         private void openProjectToolStripMenuItem_Click(object sender, EventArgs e)
@@ -225,7 +226,7 @@ namespace ScriptBuilder
             string  tagName = Frm.FindFirstOpeningTag(tmData);
             string formattedTag = "[ + ] " + makeOpenTag(tagName) + "..." + makeCloseTag(tagName);
             string  expansionState = "collapsed";
-            string indentLevel = "|     ";
+            string indentLevel = "│     ";
             string  innerData = Frm.GetDataFrom(tmData, tagName);
 
             tagList.Add(new List<string> { Frm.MakeOpenTag(tagName), expansionState, innerData, indentLevel });
@@ -240,6 +241,8 @@ namespace ScriptBuilder
         private void UpdateStructure()
         {
             cbxlstStructure.Items.Clear();
+            
+
             for (int i = 0; i < tagList.Count; i++)
             {
                 cbxlstStructure.Items.Add(tagList[i][0]);
@@ -340,7 +343,6 @@ namespace ScriptBuilder
             }
             else if (tagList[clickedItem][1] == "expanded")
             {
-                expandTag(clickedItem);
                 //tagList[clickedItem][1] = "collapsed";
             }
             else
@@ -362,9 +364,7 @@ namespace ScriptBuilder
                 int splitPosition;
                 string remainingData;
                 int insertIndex = clickedItem;
-                string indentLevel = tagList[clickedItem][3] + "|     ";
-
-
+                string indentLevel = tagList[clickedItem][3] + "│     ";
 
                 do
                 {
@@ -377,7 +377,7 @@ namespace ScriptBuilder
                     // Find the closing tag
                     string closeTag = Frm.MakeCloseTag(tagName);
                     // add item to list with tagName, expansionState, and XML data (from inside the open and closing tags)
-                    expansionState = "expanded";
+                    expansionState = "collapsed";
                     newInnerData = Frm.GetDataFrom(innerData, tagName);
 
                     
@@ -428,6 +428,30 @@ namespace ScriptBuilder
             {
                 return false;
             }
+        }
+
+        private void btnExtractParas_Click(object sender, EventArgs e)
+        {
+            extractSelectedSections();
+        }
+
+        private void extractSelectedSections()
+        {
+            List<int> selectedSections = new List<int>();
+            
+            foreach (object item in cbxlstStructure.SelectedItems)
+            {
+                selectedSections.Add(cbxlstStructure.Items.IndexOf(item));
+            }
+            string selectedSectionsText = "";
+
+            for (int i = 0; i < selectedSections.Count; i++)
+            {
+                selectedSectionsText += tagList[selectedSections[i]][2];
+            }
+
+            lbxParaList.Items.Clear();
+            UpdateListBox(selectedSectionsText);
         }
     }
 }

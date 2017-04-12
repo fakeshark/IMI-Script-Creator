@@ -53,6 +53,7 @@
             this.gbxPreview = new System.Windows.Forms.GroupBox();
             this.rtbTest = new System.Windows.Forms.RichTextBox();
             this.form1BindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.label1 = new System.Windows.Forms.Label();
             this.gbxData.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.gbxWorkArea.SuspendLayout();
@@ -201,14 +202,15 @@
             this.lbxParaList.Font = new System.Drawing.Font("Open Sans Semibold", 9.75F, System.Drawing.FontStyle.Bold);
             this.lbxParaList.FormattingEnabled = true;
             this.lbxParaList.ItemHeight = 18;
-            this.lbxParaList.Location = new System.Drawing.Point(348, 51);
+            this.lbxParaList.Location = new System.Drawing.Point(255, 51);
             this.lbxParaList.Name = "lbxParaList";
-            this.lbxParaList.Size = new System.Drawing.Size(320, 344);
+            this.lbxParaList.Size = new System.Drawing.Size(524, 344);
             this.lbxParaList.TabIndex = 2;
             this.lbxParaList.DoubleClick += new System.EventHandler(this.LbxParaList_DoubleClick);
             // 
             // gbxWorkArea
             // 
+            this.gbxWorkArea.Controls.Add(this.label1);
             this.gbxWorkArea.Controls.Add(this.cbxlstStructure);
             this.gbxWorkArea.Controls.Add(this.lblSteps);
             this.gbxWorkArea.Controls.Add(this.lblTagsStructure);
@@ -232,10 +234,10 @@
             this.cbxlstStructure.Font = new System.Drawing.Font("Open Sans Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbxlstStructure.FormattingEnabled = true;
             this.cbxlstStructure.ItemHeight = 18;
-            this.cbxlstStructure.Location = new System.Drawing.Point(25, 51);
+            this.cbxlstStructure.Location = new System.Drawing.Point(18, 51);
             this.cbxlstStructure.Name = "cbxlstStructure";
             this.cbxlstStructure.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-            this.cbxlstStructure.Size = new System.Drawing.Size(320, 344);
+            this.cbxlstStructure.Size = new System.Drawing.Size(231, 344);
             this.cbxlstStructure.TabIndex = 10;
             this.cbxlstStructure.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.cbxlstStructure_MouseDoubleClick);
             // 
@@ -244,7 +246,7 @@
             this.lblSteps.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.lblSteps.AutoSize = true;
-            this.lblSteps.Location = new System.Drawing.Point(345, 31);
+            this.lblSteps.Location = new System.Drawing.Point(252, 35);
             this.lblSteps.Name = "lblSteps";
             this.lblSteps.Size = new System.Drawing.Size(85, 13);
             this.lblSteps.TabIndex = 9;
@@ -255,11 +257,11 @@
             this.lblTagsStructure.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.lblTagsStructure.AutoSize = true;
-            this.lblTagsStructure.Location = new System.Drawing.Point(22, 31);
+            this.lblTagsStructure.Location = new System.Drawing.Point(15, 35);
             this.lblTagsStructure.Name = "lblTagsStructure";
-            this.lblTagsStructure.Size = new System.Drawing.Size(100, 13);
+            this.lblTagsStructure.Size = new System.Drawing.Size(94, 13);
             this.lblTagsStructure.TabIndex = 8;
-            this.lblTagsStructure.Text = "XML Tag Structure:";
+            this.lblTagsStructure.Text = "TM Tag Structure:";
             // 
             // btnExtractParas
             // 
@@ -267,12 +269,13 @@
             this.btnExtractParas.BackColor = System.Drawing.Color.BlanchedAlmond;
             this.btnExtractParas.FlatAppearance.BorderSize = 2;
             this.btnExtractParas.ForeColor = System.Drawing.Color.OrangeRed;
-            this.btnExtractParas.Location = new System.Drawing.Point(289, 414);
+            this.btnExtractParas.Location = new System.Drawing.Point(195, 401);
             this.btnExtractParas.Name = "btnExtractParas";
             this.btnExtractParas.Size = new System.Drawing.Size(113, 26);
             this.btnExtractParas.TabIndex = 6;
             this.btnExtractParas.Text = "❱❱❱";
             this.btnExtractParas.UseVisualStyleBackColor = false;
+            this.btnExtractParas.Click += new System.EventHandler(this.btnExtractParas_Click);
             // 
             // gbxPreview
             // 
@@ -280,9 +283,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbxPreview.Controls.Add(this.rtbTest);
-            this.gbxPreview.Location = new System.Drawing.Point(691, 26);
+            this.gbxPreview.Location = new System.Drawing.Point(785, 26);
             this.gbxPreview.Name = "gbxPreview";
-            this.gbxPreview.Size = new System.Drawing.Size(472, 414);
+            this.gbxPreview.Size = new System.Drawing.Size(378, 414);
             this.gbxPreview.TabIndex = 4;
             this.gbxPreview.TabStop = false;
             this.gbxPreview.Text = "Script Preview:";
@@ -293,15 +296,25 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.rtbTest.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rtbTest.Location = new System.Drawing.Point(21, 33);
+            this.rtbTest.Location = new System.Drawing.Point(20, 33);
             this.rtbTest.Name = "rtbTest";
-            this.rtbTest.Size = new System.Drawing.Size(431, 343);
+            this.rtbTest.Size = new System.Drawing.Size(338, 343);
             this.rtbTest.TabIndex = 0;
             this.rtbTest.Text = "";
             // 
             // form1BindingSource
             // 
             this.form1BindingSource.DataSource = typeof(ScriptBuilder.Form1);
+            // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(160, 430);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(195, 13);
+            this.label1.TabIndex = 11;
+            this.label1.Text = "Extract steps from selected TM sections";
             // 
             // Form1
             // 
@@ -353,6 +366,7 @@
         private System.Windows.Forms.Button btnViewSource;
         private System.Windows.Forms.ToolStripMenuItem setTopLevelTagToolStripMenuItem;
         private System.Windows.Forms.ListBox cbxlstStructure;
+        private System.Windows.Forms.Label label1;
     }
 }
 
