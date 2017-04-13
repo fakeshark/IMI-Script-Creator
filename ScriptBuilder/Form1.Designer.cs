@@ -298,7 +298,7 @@
             this.rtbTest.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rtbTest.Location = new System.Drawing.Point(20, 33);
             this.rtbTest.Name = "rtbTest";
-            this.rtbTest.Size = new System.Drawing.Size(338, 343);
+            this.rtbTest.Size = new System.Drawing.Size(338, 368);
             this.rtbTest.TabIndex = 0;
             this.rtbTest.Text = "";
             // 

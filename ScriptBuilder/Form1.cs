@@ -17,7 +17,7 @@ namespace ScriptBuilder
     public partial class Form1 : Form
     {
         bool unsavedChangesExist = false;
-        public string topLevelTag = "production";
+        public string topLevelTag = "paper.manual";
         string tmText;
         string tmData;
         string tmName = "";
@@ -105,8 +105,9 @@ namespace ScriptBuilder
             else
             {
                 List<int> startList = Dm.GetStartPositions(source, searchTextStart); 
-                List<int> endList = Dm.GetEndPositions(source, searchTextEnd); 
-                source = Regex.Replace(source, "<figure.*?/figure>", "", RegexOptions.Singleline); 
+                List<int> endList = Dm.GetEndPositions(source, searchTextEnd);
+                source = Regex.Replace(source, "<figure.*?/figure>", "", RegexOptions.Singleline);
+                source = Regex.Replace(source, "<table.*?/table>", "", RegexOptions.Singleline);
                 MakeParaList(startList, endList); 
 
                 for (int i = 0; i < paraList.Count; i += 2)
